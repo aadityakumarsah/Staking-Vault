@@ -46,6 +46,23 @@ cargo fmt --check
 cargo clippy --all-targets -- -D warnings
 ```
 
+## Interactive frontend test console
+
+The dependency-free frontend in [`frontend/`](frontend/) is a visual simulator
+for the same reward, collateralization, claim, and withdrawal rules. It is a
+safe way to demonstrate and manually test the product flow without a wallet or
+real token transfer.
+
+```bash
+python3 -m http.server 4173 --directory frontend
+```
+
+Then open `http://localhost:4173`. Use **Fund as admin**, create a position,
+advance the simulated clock, and claim or withdraw as the selected wallet.
+
+> The browser console is intentionally a local simulator, not a deployment
+> layer. The Rust unit tests remain the source of truth for contract behavior.
+
 ## Example output
 
 ```text
