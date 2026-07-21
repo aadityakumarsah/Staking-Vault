@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create a deterministic test stake in VaultLab." />
+    <title>Create stake · VaultLab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="stake">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="logo" href="./index.html" aria-label="VaultLab overview"><span class="logo-mark"><i></i><i></i><i></i></span><span>VaultLab</span></a>
+        <div class="environment"><span></span> Local test environment</div>
+        <nav class="primary-nav" aria-label="Primary navigation">
+          <a class="nav-link" href="./index.html"><b>01</b><span>Overview</span></a><a class="nav-link active" href="./stake.html"><b>02</b><span>Create stake</span></a><a class="nav-link" href="./positions.html"><b>03</b><span>Positions</span><em data-position-count>0</em></a><a class="nav-link" href="./activity.html"><b>04</b><span>Activity</span></a>
+        </nav>
+        <div class="sidebar-footer"><div class="sidebar-rule"></div><span class="sidebar-label">Contract model</span><strong>Linear rewards</strong><p>10.00% yearly reward<br />365-day accounting year</p><button class="reset-link" type="button" data-reset>Reset local data</button></div>
+      </aside>
+      <div class="app-content">
+        <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><i>/</i><strong>Create stake</strong></div><div class="topbar-actions"><label class="account-control"><span>Test account</span><select data-account-select aria-label="Test account"><option value="alice">Alice</option><option value="bob">Bob</option></select></label><button class="avatar-button" type="button" data-reset aria-label="Reset local test data" data-avatar>A</button></div></header>
+        <main class="page">
+          <section class="page-intro compact-intro"><div><p class="eyebrow">New position</p><h1>Create a stake.</h1><p class="lede">The full maximum reward is reserved before the position is accepted.</p></div><a class="text-link" href="./positions.html">Review positions →</a></section>
+          <section class="stake-layout">
+            <form class="card stake-form" data-stake-form>
+              <div class="form-section"><div class="form-heading"><h2>Position terms</h2><span class="rate-chip">10.00% yearly</span></div><label class="form-label" for="stake-amount">Principal amount</label><div class="input-shell"><input id="stake-amount" name="amount" type="number" min="1" max="100000000" value="1000" inputmode="numeric" required /><span>TOK</span></div><p class="field-hint">Available in active wallet: <b data-wallet-balance>0 TOK</b></p></div>
+              <fieldset class="form-section term-fieldset"><legend class="form-label">Lock duration</legend><div class="term-options"><label class="term-radio"><input type="radio" name="term" value="31536000" checked /><span><b>1 year</b><small>1.0× annual reward</small></span></label><label class="term-radio"><input type="radio" name="term" value="47304000" /><span><b>1.5 years</b><small>1.5× annual reward</small></span></label><label class="term-radio"><input type="radio" name="term" value="63072000" /><span><b>2 years</b><small>2.0× annual reward</small></span></label></div></fieldset>
+              <button class="button button-primary full-button" type="submit">Reserve rewards and create stake <span>→</span></button>
+            </form>
+            <aside class="stake-summary">
+              <article class="card summary-card"><p class="eyebrow">Position preview</p><div class="preview-row"><span>Maximum reward</span><strong data-stake-reward>100 TOK</strong></div><div class="preview-row"><span>Maturity</span><strong data-stake-maturity>365 days from today</strong></div><div class="preview-row"><span>Reward vesting</span><strong>Continuous</strong></div><div class="summary-rule"></div><div class="preview-row total"><span>Total maturity value</span><strong data-stake-total>1,100 TOK</strong></div></article>
+              <article class="notice-card"><b>Collateral check</b><p data-stake-collateral>Enter a position to test available reward liquidity.</p></article>
+              <article class="card fund-card"><p class="eyebrow">Administrator</p><h2>Fund rewards</h2><p>Seed the reserve before opening more positions.</p><form data-fund-form class="inline-form"><input name="amount" type="number" min="1" value="10000" inputmode="numeric" required /><button class="button button-secondary" type="submit">Fund pool</button></form></article>
+            </aside>
+          </section>
+        </main>
+      </div>
+    </div>
+    <div class="toast" role="status" aria-live="polite" data-toast></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

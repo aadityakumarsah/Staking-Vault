@@ -53,6 +53,18 @@ for the same reward, collateralization, claim, and withdrawal rules. It is a
 safe way to demonstrate and manually test the product flow without a wallet or
 real token transfer.
 
+It is organised as a small multi-page product console with shared browser
+state:
+
+- [`index.html`](frontend/index.html) — operational overview and reserve health
+- [`stake.html`](frontend/stake.html) — position creation and collateral preview
+- [`positions.html`](frontend/positions.html) — claim and withdrawal operations
+- [`activity.html`](frontend/activity.html) — persistent audit trail and JSON export
+
+The simulator persists its state in browser local storage, so test wallets,
+positions, simulated time, and events remain available when navigating between
+routes.
+
 ```bash
 python3 -m http.server 4173 --directory frontend
 ```

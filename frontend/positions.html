@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Inspect and operate local VaultLab staking positions." />
+    <title>Positions · VaultLab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="positions">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="logo" href="./index.html" aria-label="VaultLab overview"><span class="logo-mark"><i></i><i></i><i></i></span><span>VaultLab</span></a>
+        <div class="environment"><span></span> Local test environment</div>
+        <nav class="primary-nav" aria-label="Primary navigation">
+          <a class="nav-link" href="./index.html"><b>01</b><span>Overview</span></a><a class="nav-link" href="./stake.html"><b>02</b><span>Create stake</span></a><a class="nav-link active" href="./positions.html"><b>03</b><span>Positions</span><em data-position-count>0</em></a><a class="nav-link" href="./activity.html"><b>04</b><span>Activity</span></a>
+        </nav>
+        <div class="sidebar-footer"><div class="sidebar-rule"></div><span class="sidebar-label">Contract model</span><strong>Linear rewards</strong><p>10.00% yearly reward<br />365-day accounting year</p><button class="reset-link" type="button" data-reset>Reset local data</button></div>
+      </aside>
+      <div class="app-content">
+        <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><i>/</i><strong>Positions</strong></div><div class="topbar-actions"><label class="account-control"><span>Test account</span><select data-account-select aria-label="Test account"><option value="alice">Alice</option><option value="bob">Bob</option></select></label><button class="avatar-button" type="button" data-reset aria-label="Reset local test data" data-avatar>A</button></div></header>
+        <main class="page">
+          <section class="page-intro compact-intro"><div><p class="eyebrow">Portfolio operations</p><h1>Positions.</h1><p class="lede">Claim vested rewards whenever available. Principal unlocks only at maturity.</p></div><a class="button button-primary" href="./stake.html">Create stake <span>→</span></a></section>
+          <section class="portfolio-summary"><article><span>Total principal</span><strong data-principal-liability>0 TOK</strong></article><article><span>Rewards reserved</span><strong data-reserved-rewards>0 TOK</strong></article><article><span>Claimable now</span><strong data-total-claimable>0 TOK</strong></article><article><span>Current time</span><strong data-current-day>Day 0</strong></article></section>
+          <section class="card table-card"><div class="card-header table-header"><div><h2>All positions</h2><p>State is stored locally and shared across every route.</p></div><div class="filter-set" role="group" aria-label="Position filter"><button class="filter-button active" type="button" data-position-filter="all">All</button><button class="filter-button" type="button" data-position-filter="active">Active</button><button class="filter-button" type="button" data-position-filter="matured">Matured</button></div></div><div class="table-scroll"><table class="data-table positions-table"><thead><tr><th>Position</th><th>Principal</th><th>Term</th><th>Vesting</th><th>Claimable</th><th>Status</th><th></th></tr></thead><tbody data-positions-table></tbody></table></div></section>
+          <section class="clock-strip"><div><span>Simulated time</span><strong data-simulated-date>Day 0 · Jan 01, 2026</strong></div><div class="clock-actions"><button type="button" data-advance="7776000">+90 days</button><button type="button" data-advance="15768000">+6 months</button><button type="button" data-advance="31536000">+1 year</button></div></section>
+        </main>
+      </div>
+    </div>
+    <div class="toast" role="status" aria-live="polite" data-toast></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Review the local VaultLab audit log and test scenarios." />
+    <title>Activity · VaultLab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="activity">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="logo" href="./index.html" aria-label="VaultLab overview"><span class="logo-mark"><i></i><i></i><i></i></span><span>VaultLab</span></a>
+        <div class="environment"><span></span> Local test environment</div>
+        <nav class="primary-nav" aria-label="Primary navigation">
+          <a class="nav-link" href="./index.html"><b>01</b><span>Overview</span></a><a class="nav-link" href="./stake.html"><b>02</b><span>Create stake</span></a><a class="nav-link" href="./positions.html"><b>03</b><span>Positions</span><em data-position-count>0</em></a><a class="nav-link active" href="./activity.html"><b>04</b><span>Activity</span></a>
+        </nav>
+        <div class="sidebar-footer"><div class="sidebar-rule"></div><span class="sidebar-label">Contract model</span><strong>Linear rewards</strong><p>10.00% yearly reward<br />365-day accounting year</p><button class="reset-link" type="button" data-reset>Reset local data</button></div>
+      </aside>
+      <div class="app-content">
+        <header class="topbar"><div class="breadcrumbs"><span>Workspace</span><i>/</i><strong>Activity</strong></div><div class="topbar-actions"><label class="account-control"><span>Test account</span><select data-account-select aria-label="Test account"><option value="alice">Alice</option><option value="bob">Bob</option></select></label><button class="avatar-button" type="button" data-reset aria-label="Reset local test data" data-avatar>A</button></div></header>
+        <main class="page">
+          <section class="page-intro compact-intro"><div><p class="eyebrow">Deterministic event log</p><h1>Activity.</h1><p class="lede">Every local test action is timestamped by simulated chain time and retained between routes.</p></div><div class="button-group"><button class="button button-secondary" type="button" data-export>Export JSON</button><button class="button button-primary" type="button" data-load-scenario>Load sample flow <span>→</span></button></div></section>
+          <section class="activity-layout"><article class="card audit-card"><div class="card-header"><div><p class="eyebrow">Event stream</p><h2>Contract events</h2></div><span class="event-count" data-event-count>0 events</span></div><div class="audit-list" data-activity-list></div></article><aside class="activity-side"><article class="card invariant-card"><p class="eyebrow">Live invariant</p><h2>Vault coverage</h2><strong data-coverage-value>0 TOK</strong><p>Vault balance must equal principal liability plus reward balance.</p><div class="invariant-status" data-invariant-status><span></span> Invariant holds</div></article><article class="card time-control-card"><p class="eyebrow">Time controls</p><h2 data-current-day>Day 0</h2><input type="range" min="0" max="1095" value="0" data-time-slider aria-label="Simulated days" /><div class="range-labels"><span>Day 0</span><span>1Y</span><span>2Y</span><span>3Y</span></div><div class="clock-actions"><button type="button" data-advance="7776000">+90d</button><button type="button" data-advance="15768000">+6mo</button><button type="button" data-advance="31536000">+1y</button></div></article></aside></section>
+        </main>
+      </div>
+    </div>
+    <div class="toast" role="status" aria-live="polite" data-toast></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
