@@ -33,10 +33,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "Maturity payout (principal + remaining reward): {} tokens",
         vault.withdraw(&alice, position_id, SECONDS_PER_YEAR * 3 / 2)?
     );
-    println!(
-        "Alice's final balance: {} tokens",
-        vault.balance_of(&alice)
-    );
+    println!("Alice's final balance: {} tokens", vault.balance_of(&alice));
 
     Ok(())
 }

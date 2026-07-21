@@ -63,6 +63,22 @@ advance the simulated clock, and claim or withdraw as the selected wallet.
 > The browser console is intentionally a local simulator, not a deployment
 > layer. The Rust unit tests remain the source of truth for contract behavior.
 
+### Deploy the frontend with GitHub Pages
+
+The repository includes a Pages workflow at
+[`deploy-frontend.yml`](.github/workflows/deploy-frontend.yml). In the GitHub
+repository, open **Settings → Pages**, choose **GitHub Actions** as the source,
+then push to `main`. GitHub will publish the contents of `frontend/` at:
+
+```text
+https://aadityakumarsah.github.io/Staking-Vault/
+```
+
+GitHub Pages hosts the static test console only. The Rust code in `src/` is a
+library/domain model rather than an HTTP service, so it is built and checked by
+CI but does not need web hosting. A real on-chain or API integration would be
+deployed separately from Pages.
+
 ## Example output
 
 ```text

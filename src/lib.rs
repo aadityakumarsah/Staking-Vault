@@ -101,7 +101,10 @@ impl Position {
 /// Audit-friendly events emitted for every value-moving transition.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Event {
-    RewardsFunded { funder: Address, amount: Amount },
+    RewardsFunded {
+        funder: Address,
+        amount: Amount,
+    },
     StakeCreated {
         position_id: PositionId,
         owner: Address,
@@ -149,8 +152,12 @@ impl fmt::Display for Error {
             Self::InvalidRate => {
                 formatter.write_str("annual reward rate cannot exceed 10,000 basis points")
             }
-            Self::InvalidLockRange => formatter.write_str("lock range must be non-zero and ordered"),
-            Self::InvalidLockDuration => formatter.write_str("lock duration is outside the configured range"),
+            Self::InvalidLockRange => {
+                formatter.write_str("lock range must be non-zero and ordered")
+            }
+            Self::InvalidLockDuration => {
+                formatter.write_str("lock duration is outside the configured range")
+            }
             Self::ZeroAmount => formatter.write_str("amount must be non-zero"),
             Self::Unauthorized => formatter.write_str("caller is not authorized for this action"),
             Self::InsufficientBalance => formatter.write_str("insufficient token balance"),
@@ -238,7 +245,10 @@ impl StakingVault {
     }
 
     pub fn positions_for(&self, owner: &Address) -> Vec<&Position> {
-        self.positions.values().filter(|position| &position.owner == owner).collect()
+        self.positions
+            .values()
+            .filter(|position| &position.owner == owner)
+            .collect()
     }
 
     pub fn events(&self) -> &[Event] {
@@ -313,7 +323,9 @@ impl StakingVault {
             .checked_add(principal)
             .ok_or(Error::ArithmeticOverflow)?;
         let position_id = self.next_position_id;
-        let next_position_id = position_id.checked_add(1).ok_or(Error::ArithmeticOverflow)?;
+        let next_position_id = position_id
+            .checked_add(1)
+            .ok_or(Error::ArithmeticOverflow)?;
 
         self.transfer(caller, &Address::vault(), principal)?;
         self.positions.insert(
@@ -344,7 +356,10 @@ impl StakingVault {
 
     /// Returns newly vested, unclaimed rewards at `now` without changing state.
     pub fn claimable_rewards(&self, position_id: PositionId, now: u64) -> Result<Amount, Error> {
-        let position = self.positions.get(&position_id).ok_or(Error::PositionNotFound)?;
+        let position = self
+            .positions
+            .get(&position_id)
+            .ok_or(Error::PositionNotFound)?;
         claimable_at(position, now)
     }
 
@@ -355,7 +370,10 @@ impl StakingVault {
         position_id: PositionId,
         now: u64,
     ) -> Result<Amount, Error> {
-        let position = self.positions.get(&position_id).ok_or(Error::PositionNotFound)?;
+        let position = self
+            .positions
+            .get(&position_id)
+            .ok_or(Error::PositionNotFound)?;
         if &position.owner != caller {
             return Err(Error::NotPositionOwner);
         }
@@ -534,20 +552,28 @@ fn reward_for_term(
         Amount::from(annual_reward_bps),
         Amount::from(BPS_DENOMINATOR),
     )?;
-    mul_div_floor(annual_reward, Amount::from(lock_seconds), Amount::from(SECONDS_PER_YEAR))
+    mul_div_floor(
+        annual_reward,
+        Amount::from(lock_seconds),
+        Amount::from(SECONDS_PER_YEAR),
+    )
 }
 
 fn claimable_at(position: &Position, now: u64) -> Result<Amount, Error> {
     if now < position.created_at {
         return Err(Error::InvalidTimestamp);
     }
-    let elapsed = now.saturating_sub(position.created_at).min(position.lock_seconds);
+    let elapsed = now
+        .saturating_sub(position.created_at)
+        .min(position.lock_seconds);
     let vested = mul_div_floor(
         position.total_reward,
         Amount::from(elapsed),
         Amount::from(position.lock_seconds),
     )?;
-    vested.checked_sub(position.reward_paid).ok_or(Error::ArithmeticOverflow)
+    vested
+        .checked_sub(position.reward_paid)
+        .ok_or(Error::ArithmeticOverflow)
 }
 
 /// Computes `floor(a × b / denominator)` without floating point. The quotient
@@ -561,7 +587,9 @@ fn mul_div_floor(a: Amount, b: Amount, denominator: Amount) -> Result<Amount, Er
         .checked_mul(b)
         .ok_or(Error::ArithmeticOverflow)?
         / denominator;
-    quotient_part.checked_add(remainder_part).ok_or(Error::ArithmeticOverflow)
+    quotient_part
+        .checked_add(remainder_part)
+        .ok_or(Error::ArithmeticOverflow)
 }
 
 #[cfg(test)]
@@ -621,12 +649,11 @@ mod tests {
                 .unwrap(),
             50
         );
+        assert_eq!(state.claimable_rewards(id, 100 + YEAR * 3 / 4).unwrap(), 25);
         assert_eq!(
-            state.claimable_rewards(id, 100 + YEAR * 3 / 4).unwrap(),
-            25
-        );
-        assert_eq!(
-            state.claim_rewards(&address("alice"), id, 100 + YEAR).unwrap(),
+            state
+                .claim_rewards(&address("alice"), id, 100 + YEAR)
+                .unwrap(),
             50
         );
         assert_eq!(state.claimable_rewards(id, 100 + YEAR).unwrap(), 0);
@@ -651,7 +678,9 @@ mod tests {
         let mut state = vault();
         state.fund_rewards(&address("admin"), 1_000).unwrap();
         let id = state.stake(&address("alice"), 1_000, YEAR, 0).unwrap();
-        state.claim_rewards(&address("alice"), id, YEAR / 2).unwrap();
+        state
+            .claim_rewards(&address("alice"), id, YEAR / 2)
+            .unwrap();
 
         assert_eq!(state.withdraw(&address("alice"), id, YEAR).unwrap(), 1_050);
         assert_eq!(state.balance_of(&address("alice")), 10_100);
@@ -686,7 +715,10 @@ mod tests {
     #[test]
     fn only_admin_can_fund_rewards() {
         let mut state = vault();
-        assert_eq!(state.fund_rewards(&address("alice"), 10), Err(Error::Unauthorized));
+        assert_eq!(
+            state.fund_rewards(&address("alice"), 10),
+            Err(Error::Unauthorized)
+        );
     }
 
     #[test]
@@ -710,7 +742,10 @@ mod tests {
         let mut state = vault();
         state.fund_rewards(&address("admin"), 1_000).unwrap();
 
-        assert_eq!(state.stake(&address("alice"), 0, YEAR, 0), Err(Error::ZeroAmount));
+        assert_eq!(
+            state.stake(&address("alice"), 0, YEAR, 0),
+            Err(Error::ZeroAmount)
+        );
         assert_eq!(
             state.stake(&address("alice"), 100, DAY - 1, 0),
             Err(Error::InvalidLockDuration)
@@ -767,7 +802,9 @@ mod tests {
         let mut state = vault();
         state.fund_rewards(&address("admin"), 1_000).unwrap();
         let id = state.stake(&address("alice"), 1_000, YEAR, 0).unwrap();
-        state.claim_rewards(&address("alice"), id, YEAR / 2).unwrap();
+        state
+            .claim_rewards(&address("alice"), id, YEAR / 2)
+            .unwrap();
         state.withdraw(&address("alice"), id, YEAR).unwrap();
 
         assert_eq!(state.events().len(), 5);
