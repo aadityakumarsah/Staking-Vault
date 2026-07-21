@@ -207,7 +207,7 @@ impl StakingVault {
     ) -> Result<Self, Error> {
         config.validate()?;
 
-        let mut balances = BTreeMap::new();
+        let mut balances: BTreeMap<Address, Amount> = BTreeMap::new();
         for (address, amount) in initial_balances {
             if address == Address::vault() {
                 return Err(Error::InvalidAddress);
