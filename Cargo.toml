@@ -1,0 +1,18 @@
+[package]
+name = "linear-staking-vault"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "A dependency-free, deterministic staking-vault domain model with linearly vested rewards."
+license = "MIT"
+keywords = ["staking", "smart-contract", "rust", "defi"]
+categories = ["cryptography::cryptocurrencies", "finance"]
+
+[lib]
+name = "linear_staking_vault"
+path = "src/lib.rs"
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = "symbols"
